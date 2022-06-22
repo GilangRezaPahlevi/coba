@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\cate;
+use App\Models\cate_coba1;
 use App\Models\User;
 use App\Models\jenis;
 use App\Models\coba1;
@@ -75,7 +77,8 @@ class DatabaseSeeder extends Seeder
 
         //dengan bantuan factory membuat data baru dengan jumlah yg bisa kita sesuaikan
         User::factory(4)->create();
-        // jenis::factory(50)->create();
-        Coba1::factory(1000)->create();
+        cate::factory(10)->create();
+        Coba1::factory(100)->create();
+        cate_coba1::factory(200)->create();
     }
 }

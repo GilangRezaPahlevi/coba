@@ -9,10 +9,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Storecoba1Request;
 use App\Http\Requests\Updatecoba1Request;
+use App\Models\cate;
+use App\Models\cate_coba1;
+use App\Models\cate_coba1s;
+use Illuminate\Pagination\coba2page;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
-use DB;
 
 class Coba1Controller extends Controller
 {
@@ -127,20 +132,43 @@ class Coba1Controller extends Controller
         ]);
     }
 
+    public function pag($items, $perPage = 10, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new coba2page($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
+
+
     public function let6(user $user)
     {
-        $data = user::paginate(10);
-        return view('je', [
-            "title" => "je",
-            "jen" => $user->coba1->load('jenis')->sortBy('isi')->paginate(10)->$data
-        ]);
+        $myArray = $user->coba1->load(['user', 'jenis'])->sortBy('isi');
+
+        $myCollectionObj = collect($myArray);
+
+        $da = $this->pag($myCollectionObj);
+
+        return view(
+            'je',
+            [
+                "title" => "je",
+                "jen2" => $myArray,
+                "jen" => $da
+            ]
+        );
     }
 
     public function jenis(jenis $jenis)
     {
+        $myArray = $jenis->coba1->load('jenis')->sortBy('isi');
+
+        $myCollectionObj = collect($myArray);
+
+        $da = $this->pag($myCollectionObj);
         return view('jenis', [
             "title" => "jenis",
-            "jen" => $jenis->coba1->load('jenis')->sortBy('isi')
+            "jen2" => $myArray,
+            "jen" => $da
         ]);
     }
 
@@ -207,7 +235,8 @@ class Coba1Controller extends Controller
     {
         return view('admin.new_post', [
             "title" => "New Post",
-            "NP" => jenis::all()
+            "NP" => jenis::all(),
+            "cate" => cate::all()
         ]);
     }
 
@@ -270,11 +299,12 @@ class Coba1Controller extends Controller
         // ddd() atau Dump, Die, Debug digunakan untuk mengetahui informasi pada suatu nilai variabel
         // ddd($request);
         // return $request->file('img')->store('img');
+        // $product = new coba1;
         $inpost = $request->validate([
             'isi' => ['required', 'unique:coba1s'],
             'jenis_id' => ['required'],
             'img' => ['image', 'file', 'max:20000'],
-            'isi3' => ['required']
+            'isi3' => ['required'],
         ]);
 
         if ($request->file('img')) {
@@ -285,7 +315,12 @@ class Coba1Controller extends Controller
         $inpost['isi2'] = $inpost['isi3'];
         $inpost['user_id'] = auth()->user()->id;
 
-        coba1::create($inpost);
+
+
+
+        $product = coba1::create($inpost);
+        $category = cate::find([$request['cate']]);
+        $product->cate()->attach($request['cate']);
 
         return redirect('/mypost')->with('success', 'Selamat Anda Telah Mmembuat Postingan Baru');
         // return $inpost;

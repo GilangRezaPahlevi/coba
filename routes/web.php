@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admincontroller;
+use App\Http\Controllers\cate;
 use App\Http\Controllers\Coba1Controller;
 use App\Http\Controllers\ler;
 use App\Models\coba1;
@@ -76,3 +77,9 @@ Route::post('/logout', [Coba1Controller::class, 'logout']);
 //pengunaan routing resource dengan bantuan controller
 //penggunaan except('class') pada route resource memiliki fungsi unuk mematikan sebuaah fungsi di dalam controller
 Route::resource('/admin/mypost', admincontroller::class)->middleware('akses');
+
+//.................................................................................................//
+
+Route::resource('/admin/category', cate::class)->middleware('akses');
+
+//..................................................................................................//

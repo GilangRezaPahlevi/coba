@@ -38,4 +38,9 @@ class coba1 extends Model
     {
         return $this->belongsTo(user::class);
     }
+
+    public function cate()
+    {
+        return $this->belongsToMany(cate::class);
+    }
 }

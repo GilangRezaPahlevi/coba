@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
 
         //pembuatan gate untuk membuat hak akses user
         Gate::define('hakakses', function (User $user) {
-            return $user->id === 1
+            return auth()->user()->id == 1
                 ? Response::allow()
                 : Response::deny('jangan mencoba coba memasuki url ini.');
         });

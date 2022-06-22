@@ -1,14 +1,14 @@
 @extends('layout.lay1')
 
 @section('container')
-    @if (count($jen) == 0)
+    @if (count($jen2) == 0)
         <div class="mt-5 row justify-content-center m-45px-b sm-m-25px-b">
             <div class="p-5 bg-light border border-danger col-9 rounded-3">
             <h1 class="dark-color font-alt text-center ">KOSONG</h1>
             </div>
         </div>
     @else
-        <h4>Category {{ $jen[0]->jenis->nama }}</h4>
+        <h4>Category {{ $jen2[0]->jenis->nama }}</h4>
         @foreach ($jen as $j)
             <div class="mt-3">
                 @if ($j->img)
@@ -30,9 +30,9 @@
                 <a href="/pea/{{ $j->isi }}" class="text-decoration-none">BACA SELENGKAPNYA</a>
             </article>
         @endforeach
-        {{-- <div class="d-flex justify-content-center m-5 mw-50" >
+        <div class="d-flex justify-content-center m-5 mw-50" >
             {{ $jen->onEachSide(1)->links() }}
-        </div> --}}
+        </div>
     @endif
 {{-- @if (count($jen) == 0)
     <div class="mt-5 row justify-content-center m-45px-b sm-m-25px-b">

@@ -26,7 +26,8 @@
           <thead>
             <tr>
               <th>No</th>
-              <th class="w-100">Judul</th>
+              <th class="w-75">Judul</th>
+              <th class="w-25">Cate</th>
               <th colspan="3">Tindakan</th>
             </tr>
           </thead>
@@ -35,6 +36,11 @@
             <tr>
               <td>{{ $loop->iteration }}</td>
               <td>{{ $up->isi }}</td>
+              <td>
+                @foreach ($up->cate as $c)
+                  -{{ $c->nama }}<br>
+                @endforeach
+              </td>
               <td><a href="/detailpost/{{ $up->slug }}" class="btn btn-info fs-6 px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="Detail"><i class="bi bi-eye"></i></a></td>
               <td><a href="/edite/{{ $up->slug }}" class="btn btn-warning fs-6 py-1 px-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="Edit"><i class="bi bi-pencil-square"></i></a></td>
               <td>

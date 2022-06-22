@@ -38,6 +38,13 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-floating">
+                            <h4>Cate :</h4>
+                            @foreach ($cate as $c)
+                                <p>{{ $c->nama }}</p>
+                                <input type="checkbox" name="cate[]" id="cate" value="{{ $c->id }}">
+                            @endforeach
+                        </div>
                         <div class="form-floating mb-3">
                             <h4>Post Img :</h4>
                            <div class="text-center">
